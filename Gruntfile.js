@@ -37,12 +37,18 @@ module.exports = function(grunt) {
 		copy : {
 			main : {
 				files : [ {
-					cwd: 'src',
+					cwd : 'src',
 					expand : true,
 					src : [ 'component.xml' ],
 					dest : 'dist',
 					filter : 'isFile'
 				} ]
+			}
+		},
+		command : {
+			run_bat: {
+				type: 'bat',
+				cmd: 'bin/biserver-ce/import-export.bat'
 			}
 		}
 	});
@@ -50,6 +56,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-commands');
 	grunt.registerTask('default', [ 'uglify', 'cssmin', 'copy', 'compress' ]);
-	grunt.registerTask('publish-refresh', [ 'default' ]);
+	grunt.registerTask('publish-refresh', [ 'default', 'command' ]);
 };
