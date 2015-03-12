@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 		compress : {
 			main : {
 				options : {
-					archive : './bin/DataTableComponent.zip'
+					archive : 'bin/DataTableComponent.zip'
 				},
 				files : [ {
 					expand : true,
@@ -20,13 +20,36 @@ module.exports = function(grunt) {
 			main : {
 				files : {
 					'dist/component.js' : [ 'src/component.js' ],
-					'dist/component.css' : [ 'src/component.css' ],
-					'dist/component.xml' : [ 'src/component.xml' ]
 				}
+			}
+		},
+		cssmin : {
+			target : {
+				files : [ {
+					expand : true,
+					cwd : 'src',
+					src : [ '*.css' ],
+					dest : 'dist',
+					ext : '.css'
+				} ]
+			}
+		},
+		copy : {
+			main : {
+				files : [ {
+					cwd: 'src',
+					expand : true,
+					src : [ 'component.xml' ],
+					dest : 'dist',
+					filter : 'isFile'
+				} ]
 			}
 		}
 	});
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.registerTask('default', [ 'uglify', 'compress' ]);
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.registerTask('default', [ 'uglify', 'cssmin', 'copy', 'compress' ]);
+	grunt.registerTask('publish-refresh', [ 'default' ]);
 };
